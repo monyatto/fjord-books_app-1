@@ -11,6 +11,7 @@ def picture_file(name)
 end
 
 Book.destroy_all
+User.destroy_all
 
 Book.create!(
   title: 'Ruby超入門',
@@ -39,6 +40,15 @@ Book.create!(
     memo: Faker::Book.genre,
     author: Faker::Book.author,
     picture: picture_file('no-image.png')
+  )
+end
+
+50.times do
+  User.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+    password: Faker::Internet.password(min_length: 8)
+    password_confirmation: :password
   )
 end
 
