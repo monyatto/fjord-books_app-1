@@ -43,12 +43,25 @@ Book.create!(
   )
 end
 
+User.create!(
+  name: 'test',
+  email: 'test@mail',
+  password: 'test1234',
+  password_confirmation: 'test1234',
+  postal_code: '1234567',
+  address: 'test',
+  profile: 'testtesttest'
+)
+
 50.times do
   User.create!(
     name: Faker::Name.name,
     email: Faker::Internet.email,
-    password: Faker::Internet.password(min_length: 8)
-    password_confirmation: :password
+    password: 'testtest',
+    password_confirmation: 'testtest',
+    postal_code: Faker::Address.postcode,
+    address: Faker::Address.city,
+    profile: Faker::Creature::Animal.name
   )
 end
 

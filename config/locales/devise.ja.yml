@@ -26,6 +26,7 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
         postal_code: 郵便番号
+        name: 名前
         address: 住所
         profile: 自己紹介
     models:
@@ -144,3 +145,8 @@ ja:
       not_saved:
         one: エラーが発生したため %{resource} は保存されませんでした。
         other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
+  layouts:
+    application:
+      login_as: "%{user}としてログイン"
+      edit: 編集
+      logout: ログアウト
