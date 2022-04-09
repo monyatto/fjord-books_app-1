@@ -33,22 +33,19 @@
   <% end %>
 </p>
 
-<% @user ||= current_user %>
-<div class="stats">
+<p>
   <a href="<%= following_user_path(@user) %>">
-    following:
-    <strong id="following" class="stat">
-      <%= @user.following.count %>
-    </strong>
+    <strong><%= Follow.human_attribute_name(:following) %>:</strong>
+    <%= @user.following.count %>
   </a>
-  <a href="<%= followers_user_path(@user) %>">
-    followers:
-    <strong id="followers" class="stat">
-      <%= @user.followers.count %>
-    </strong>
-  </a>
-</div>
+</p>
 
+<p>
+  <a href="<%= followers_user_path(@user) %>">
+    <strong><%= Follow.human_attribute_name(:followers) %>:</strong>
+    <%= @user.followers.count %>
+  </a>
+</p>
 
 <% if current_user == @user %>
   <%= link_to t('views.common.edit'), edit_user_registration_path %> |
