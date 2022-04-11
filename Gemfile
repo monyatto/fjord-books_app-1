@@ -65,3 +65,7 @@ gem 'devise-i18n'
 gem 'kaminari'
 
 gem 'active_storage_validations'
+
+group :development do
+  gem 'bullet'
+end
