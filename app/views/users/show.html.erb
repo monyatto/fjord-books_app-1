@@ -34,9 +34,9 @@
 </p>
 
 <p>
-  <a href="<%= following_user_path(@user) %>">
+  <a href="<%= followings_user_path(@user) %>">
     <strong><%= Follow.human_attribute_name(:following) %>:</strong>
-    <%= @user.following.count %>
+    <%= @user.followings.count %>
   </a>
 </p>
 
@@ -49,9 +49,9 @@
 
 <% unless @user == current_user %>
   <% if current_user.following?(@user) %>
-    <%= button_to 'フォロー解除', follows_path(@user), method: :delete %>
+    <%= button_to t('views.common.unfollow'), follows_path(@user), method: :delete %>
   <% else %>
-    <%= button_to 'フォローする', follows_path(@user), method: :post %>
+    <%= button_to t('views.common.follow'), follows_path(@user), method: :post %>
   <% end %>
 <% end %>
 
