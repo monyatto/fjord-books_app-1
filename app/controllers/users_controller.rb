@@ -11,15 +11,15 @@ class UsersController < ApplicationController
 
   def followings
     @title = Follow.human_attribute_name(:following)
-    @user  = User.find(params[:id])
+    @user  = User.find(params[:user_id])
     @users = @user.followings.order(:id).page(params[:page])
-    render 'follow'
+    render 'users_list'
   end
 
   def followers
     @title = Follow.human_attribute_name(:followers)
-    @user  = User.find(params[:id])
+    @user  = User.find(params[:user_id])
     @users = @user.followers.order(:id).page(params[:page])
-    render 'follow'
+    render 'users_list'
   end
 end
