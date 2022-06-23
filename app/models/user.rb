@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_follows, source: :follower
 
   def follow(other_user)
-    return active_follows.create(followed_id: other_user) if active_follows.find_by(followed_id: other_user).nil?
+    active_follows.find_or_create_by(followed_id: other_user)
   end
 
   def unfollow(other_user)
