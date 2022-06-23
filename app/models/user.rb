@@ -15,7 +15,7 @@ class User < ApplicationRecord
   end
 
   def unfollow(other_user)
-    return active_follows.find_by(followed_id: other_user).destroy unless active_follows.find_by(followed_id: other_user).nil?
+    active_follows.find_by(followed_id: other_user)&.destroy
   end
 
   def following?(other_user_id)
