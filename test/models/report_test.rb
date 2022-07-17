@@ -13,8 +13,9 @@ class ReportTest < ActiveSupport::TestCase
 
   test '#created_on?' do
     me = User.create!(email: 'me@example.com', password: 'password')
-    report = me.reports.new(title: 'レポートのタイトル', content: 'レポートの内容', created_at: Time.zone.now)
-    assert_not report.created_at.instance_of?(Date)
-    assert report.created_on.instance_of?(Date)
+    now_time = Time.zone.now
+    report = me.reports.new(title: 'レポートのタイトル', content: 'レポートの内容', created_at: now_time)
+    assert_not_equal report.created_at, now_time.to_date
+    assert_equal report.created_on, now_time.to_date
   end
 end
