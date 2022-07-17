@@ -3,41 +3,34 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  test '#following?' do
-    me = User.create!(email: 'me@example.com', password: 'password')
-    she = User.create!(email: 'she@example.com', password: 'password')
+  setup do
+    @alice = users(:alice)
+    @bob = users(:bob)
+  end
 
-    assert_not me.following?(she)
-    me.follow(she)
-    assert me.following?(she)
+  test '#following?' do
+    assert_not @alice.following?(@bob)
+    @alice.follow(@bob)
+    assert @alice.following?(@bob)
   end
 
   test '#followed_by?' do
-    me = User.create!(email: 'me@example.com', password: 'password')
-    she = User.create!(email: 'she@example.com', password: 'password')
-
-    assert_not she.followed_by?(me)
-    me.follow(she)
-    assert she.followed_by?(me)
+    assert_not @bob.followed_by?(@alice)
+    @alice.follow(@bob)
+    assert @bob.followed_by?(@alice)
   end
 
   test '#follow' do
-    me = User.create!(email: 'me@example.com', password: 'password')
-    she = User.create!(email: 'she@example.com', password: 'password')
-
-    assert_not me.following?(she)
-    me.follow(she)
-    assert me.following?(she)
+    assert_not @alice.following?(@bob)
+    @alice.follow(@bob)
+    assert @alice.following?(@bob)
   end
 
   test '#unfollow' do
-    me = User.create!(email: 'me@example.com', password: 'password')
-    she = User.create!(email: 'she@example.com', password: 'password')
-
-    me.follow(she)
-    assert me.following?(she)
-    me.unfollow(she)
-    assert_not me.following?(she)
+    @alice.follow(@bob)
+    assert @alice.following?(@bob)
+    @alice.unfollow(@bob)
+    assert_not @alice.following?(@bob)
   end
 
   test '#name_or_email' do
