@@ -9,28 +9,25 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test '#following?' do
-    assert_not @alice.following?(@bob)
-    @alice.follow(@bob)
+    assert_not @bob.following?(@alice)
     assert @alice.following?(@bob)
   end
 
   test '#followed_by?' do
-    assert_not @bob.followed_by?(@alice)
-    @alice.follow(@bob)
+    assert_not @alice.followed_by?(@bob)
     assert @bob.followed_by?(@alice)
   end
 
   test '#follow' do
-    assert_not @alice.following?(@bob)
-    @alice.follow(@bob)
-    assert @alice.following?(@bob)
+    assert_nil Relationship.find_by(following: @alice)
+    @bob.follow(@alice)
+    assert Relationship.find_by(following: @alice)
   end
 
   test '#unfollow' do
-    @alice.follow(@bob)
-    assert @alice.following?(@bob)
+    assert Relationship.find_by(following: @bob)
     @alice.unfollow(@bob)
-    assert_not @alice.following?(@bob)
+    assert_nil Relationship.find_by(following: @bob)
   end
 
   test '#name_or_email' do
