@@ -15,8 +15,10 @@
       <td><%= User.find(comment.user_id).name == "" ? User.find(comment.user_id).email : User.find(comment.user_id).name %></td>
       <td><%= comment.content %></td>
       <td><%= l comment.created_at %></td>
+      <% if comment.user == current_user %>
       <td><%= link_to t('views.common.edit'), polymorphic_url([:edit, commentable, comment]) %></td>
       <td><%= link_to t('views.common.destroy'), polymorphic_url([commentable, comment]), method: :delete, data: { confirm: t('views.common.delete_confirm') }%></td>
+      <% end %>
     </tr>
     <% end %>
   </tbody>

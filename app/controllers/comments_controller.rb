@@ -2,6 +2,7 @@
 
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[edit update destroy]
+  before_action :ensure_user, only: %i[edit update destroy]
 
   def create
     @comment = @commentable.comments.new(comment_params)
@@ -36,5 +37,10 @@ class CommentsController < ApplicationController
 
   def set_comment
     @comment = Comment.find(params[:id]) if Comment.exists?(params[:id])
+  end
+
+  def ensure_user
+    @comments = current_user.comments
+    @comment = @comments.find(params[:id])
   end
 end
