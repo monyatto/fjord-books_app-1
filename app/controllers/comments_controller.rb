@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :ensure_user, only: %i[edit update destroy]
-
   def create
+    resource, id = request.path.split('/')[1, 2]
+    @commentable = resource.singularize.classify.constantize.find(id)
     @comment = @commentable.comments.new(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
@@ -13,9 +13,18 @@ class CommentsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    resource, id = request.path.split('/')[1, 2]
+    @commentable = resource.singularize.classify.constantize.find(id)
+    @comments = current_user.comments
+    @comment = @comments.find(params[:id])
+  end
 
   def update
+    @comments = current_user.comments
+    @comment = @comments.find(params[:id])
+    resource, id = request.path.split('/')[1, 2]
+    @commentable = resource.singularize.classify.constantize.find(id)
     if @comment&.update(comment_params)
       redirect_to @commentable, notice: t('controllers.common.notice_update', name: Comment.model_name.human)
     else
@@ -24,6 +33,10 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comments = current_user.comments
+    @comment = @comments.find(params[:id])
+    resource, id = request.path.split('/')[1, 2]
+    @commentable = resource.singularize.classify.constantize.find(id)
     @comment&.destroy
     redirect_to @commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human)
   end
@@ -32,10 +45,5 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:content)
-  end
-
-  def ensure_user
-    @comments = current_user.comments
-    @comment = @comments.find(params[:id])
   end
 end

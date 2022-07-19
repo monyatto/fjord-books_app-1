@@ -2,7 +2,6 @@
 
 class ReportsController < ApplicationController
   before_action :ensure_user, only: %i[edit update destroy]
-  before_action :set_report, only: :show
 
   # GET /reports
   def index
@@ -11,6 +10,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/1
   def show
+    @report = Report.find(params[:id]) if Report.exists?(params[:id])
     @comment = Comment.new
   end
 
@@ -20,7 +20,10 @@ class ReportsController < ApplicationController
   end
 
   # GET /reports/1/edit
-  def edit; end
+  def edit
+    @reports = current_user.reports
+    @report = @reports.find(params[:id])
+  end
 
   # POST /reports
   def create
@@ -34,6 +37,8 @@ class ReportsController < ApplicationController
 
   # PATCH/PUT /reports/1
   def update
+    @reports = current_user.reports
+    @report = @reports.find(params[:id])
     if @report&.update(report_params)
       redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
     else
@@ -43,24 +48,16 @@ class ReportsController < ApplicationController
 
   # DELETE /reports/1
   def destroy
+    @reports = current_user.reports
+    @report = @reports.find(params[:id])
     @report&.destroy
     redirect_to reports_url, notice: t('controllers.common.notice_destroy', name: Report.model_name.human)
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_report
-    @report = Report.find(params[:id]) if Report.exists?(params[:id])
-  end
-
   # Only allow a list of trusted parameters through.
   def report_params
     params.require(:report).permit(:title, :content, :created_at)
-  end
-
-  def ensure_user
-    @reports = current_user.reports
-    @report = @reports.find(params[:id])
   end
 end

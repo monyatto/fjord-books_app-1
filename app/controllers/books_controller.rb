@@ -1,18 +1,15 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[show edit update destroy]
-
   # GET /books
-  # GET /books.json
   def index
     @books = Book.order(:id).page(params[:page])
   end
 
   # GET /books/1
-  # GET /books/1.json
   def show
     @comment = Comment.new
+    @book = Book.find(params[:id]) if Book.exists?(params[:id])
   end
 
   # GET /books/new
@@ -21,7 +18,9 @@ class BooksController < ApplicationController
   end
 
   # GET /books/1/edit
-  def edit; end
+  def edit
+    @book = Book.find(params[:id]) if Book.exists?(params[:id])
+  end
 
   # POST /books
   def create
@@ -35,6 +34,7 @@ class BooksController < ApplicationController
 
   # PATCH/PUT /books/1
   def update
+    @book = Book.find(params[:id]) if Book.exists?(params[:id])
     if @book&.update(book_params)
       redirect_to @book, notice: t('controllers.common.notice_update', name: Book.model_name.human)
     else
@@ -44,16 +44,12 @@ class BooksController < ApplicationController
 
   # DELETE /books/1
   def destroy
+    @book = Book.find(params[:id]) if Book.exists?(params[:id])
     @book&.destroy
     redirect_to books_url, notice: t('controllers.common.notice_destroy', name: Book.model_name.human)
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_book
-    @book = Book.find(params[:id]) if Book.exists?(params[:id])
-  end
 
   # Only allow a list of trusted parameters through.
   def book_params

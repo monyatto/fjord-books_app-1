@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeCloumnsNotnullAddReports < ActiveRecord::Migration[6.1]
   def change
     change_column :reports, :title, :string, null: false
