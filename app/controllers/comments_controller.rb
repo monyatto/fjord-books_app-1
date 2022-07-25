@@ -16,13 +16,13 @@ class CommentsController < ApplicationController
   def edit
     resource, id = request.path.split('/')[1, 2]
     @commentable = resource.singularize.classify.constantize.find(id)
-    @comments = current_user.comments
-    @comment = @comments.find(params[:id])
+    comments = current_user.comments
+    @comment = comments.find(params[:id])
   end
 
   def update
-    @comments = current_user.comments
-    @comment = @comments.find(params[:id])
+    comments = current_user.comments
+    @comment = comments.find(params[:id])
     resource, id = request.path.split('/')[1, 2]
     @commentable = resource.singularize.classify.constantize.find(id)
     if @comment&.update(comment_params)
@@ -33,8 +33,8 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comments = current_user.comments
-    @comment = @comments.find(params[:id])
+    comments = current_user.comments
+    @comment = comments.find(params[:id])
     resource, id = request.path.split('/')[1, 2]
     @commentable = resource.singularize.classify.constantize.find(id)
     @comment&.destroy
