@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
     @comment = comments.find(params[:id])
     resource, id = request.path.split('/')[1, 2]
     @commentable = resource.singularize.classify.constantize.find(id)
-    if @comment&.update(comment_params)
+    if @comment.update(comment_params)
       redirect_to @commentable, notice: t('controllers.common.notice_update', name: Comment.model_name.human)
     else
       render :edit
@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
     @comment = comments.find(params[:id])
     resource, id = request.path.split('/')[1, 2]
     @commentable = resource.singularize.classify.constantize.find(id)
-    @comment&.destroy
+    @comment.destroy
     redirect_to @commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human)
   end
 

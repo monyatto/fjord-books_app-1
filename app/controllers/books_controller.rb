@@ -9,7 +9,7 @@ class BooksController < ApplicationController
   # GET /books/1
   def show
     @comment = Comment.new
-    @book = Book.find(params[:id]) if Book.exists?(params[:id])
+    @book = Book.find(params[:id])
   end
 
   # GET /books/new
@@ -19,7 +19,7 @@ class BooksController < ApplicationController
 
   # GET /books/1/edit
   def edit
-    @book = Book.find(params[:id]) if Book.exists?(params[:id])
+    @book = Book.find(params[:id])
   end
 
   # POST /books
@@ -34,8 +34,8 @@ class BooksController < ApplicationController
 
   # PATCH/PUT /books/1
   def update
-    @book = Book.find(params[:id]) if Book.exists?(params[:id])
-    if @book&.update(book_params)
+    @book = Book.find(id: params[:id])
+    if @book.update(book_params)
       redirect_to @book, notice: t('controllers.common.notice_update', name: Book.model_name.human)
     else
       render :edit
@@ -44,8 +44,8 @@ class BooksController < ApplicationController
 
   # DELETE /books/1
   def destroy
-    @book = Book.find(params[:id]) if Book.exists?(params[:id])
-    @book&.destroy
+    @book = Book.find(id: params[:id])
+    @book.destroy
     redirect_to books_url, notice: t('controllers.common.notice_destroy', name: Book.model_name.human)
   end
 
