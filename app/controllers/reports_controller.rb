@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/1
   def show
-    @report = Report.find(params[:id]) if Report.exists?(params[:id])
+    @report = Report.find(params[:id])
     @comment = Comment.new
   end
 
@@ -39,7 +39,7 @@ class ReportsController < ApplicationController
   def update
     @reports = current_user.reports
     @report = @reports.find(params[:id])
-    if @report&.update(report_params)
+    if @report.update(report_params)
       redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
     else
       render :edit, status: :unprocessable_entity
@@ -50,7 +50,7 @@ class ReportsController < ApplicationController
   def destroy
     @reports = current_user.reports
     @report = @reports.find(params[:id])
-    @report&.destroy
+    @report.destroy
     redirect_to reports_url, notice: t('controllers.common.notice_destroy', name: Report.model_name.human)
   end
 
