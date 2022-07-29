@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :ensure_user, only: %i[edit update destroy]
-
   # GET /reports
   def index
     @reports = Report.order(:id).page(params[:page])
