@@ -2,8 +2,6 @@
 
 class CommentsController < ApplicationController
   def create
-    resource, id = request.path.split('/')[1, 2]
-    @commentable = resource.singularize.classify.constantize.find(id)
     @comment = @commentable.comments.new(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
@@ -14,8 +12,6 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    resource, id = request.path.split('/')[1, 2]
-    @commentable = resource.singularize.classify.constantize.find(id)
     comments = current_user.comments
     @comment = comments.find(params[:id])
   end
@@ -23,8 +19,6 @@ class CommentsController < ApplicationController
   def update
     comments = current_user.comments
     @comment = comments.find(params[:id])
-    resource, id = request.path.split('/')[1, 2]
-    @commentable = resource.singularize.classify.constantize.find(id)
     if @comment.update(comment_params)
       redirect_to @commentable, notice: t('controllers.common.notice_update', name: Comment.model_name.human)
     else
@@ -35,8 +29,6 @@ class CommentsController < ApplicationController
   def destroy
     comments = current_user.comments
     @comment = comments.find(params[:id])
-    resource, id = request.path.split('/')[1, 2]
-    @commentable = resource.singularize.classify.constantize.find(id)
     @comment.destroy
     redirect_to @commentable, notice: t('controllers.common.notice_destroy', name: Comment.model_name.human)
   end
