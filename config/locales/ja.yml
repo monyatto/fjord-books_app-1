@@ -112,7 +112,7 @@ ja:
       accepted: を受諾してください
       blank: を入力してください
       confirmation: と%{attribute}の入力が一致しません
-      empty: を入力してください
+      empty: "%{name}を入力してください"
       equal_to: は%{count}にしてください
       even: は偶数にしてください
       exclusion: は予約されています
@@ -201,7 +201,7 @@ ja:
   time:
     am: 午前
     formats:
-      default: "%Y年%m月%d日(%a) %H時%M分%S秒 %z"
+      default: "%Y/%m/%d(%a) %H:%M"
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
@@ -255,3 +255,5 @@ ja:
     registrations:
       edit:
         title: "アカウント編集"
+  comments:
+    empty: "まだコメントはありません"
